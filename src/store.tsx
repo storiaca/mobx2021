@@ -9,7 +9,7 @@ interface IBLock {
 
 class BlockchainStore {
   blocks: Array<IBLock> = [];
-  transactions: Array<string> = [];
+  transactions: Array<string> = ["Start"];
 
   constructor() {
     makeAutoObservable(this);
@@ -21,15 +21,13 @@ class BlockchainStore {
 }
 const StoreContext = createContext<BlockchainStore>(new BlockchainStore());
 
-const StoreProvider: FC<{store: BlockchainStore}> = ({store, children}) => {
+const StoreProvider: FC<{ store: BlockchainStore }> = ({ store, children }) => {
   return (
-    <StoreContext.Provider value={store}>
-      {children}
-    </StoreContext.Provider>
-  )
-}
+    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+  );
+};
 
 const useStore = () => {
-  return useContext(StoreContext)
-}
-export {BlockchainStore, StoreProvider, useStore};
+  return useContext(StoreContext);
+};
+export { BlockchainStore, StoreProvider, useStore };

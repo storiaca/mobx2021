@@ -5,9 +5,34 @@ import { useStore } from "src/store";
 const Home: FC = () => {
   return (
     <main>
+      <Form />
       <Transactions />
-      <h4>Hello</h4>
     </main>
+  );
+};
+
+const Form: FC = () => {
+  const store = useStore();
+  const [message, setMessage] = useState("");
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+
+        store.addTransaction(message);
+        setMessage("");
+      }}
+    >
+      <input
+        type="text"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="message"
+        required
+      />
+      <button type="submit">Add</button>
+    </form>
   );
 };
 
