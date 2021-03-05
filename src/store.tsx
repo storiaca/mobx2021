@@ -12,11 +12,24 @@ class BlockchainStore {
   transactions: Array<string> = [];
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
   }
 
   addTransaction(message: string) {
     this.transactions.push(message);
   }
 }
-export {BlockchainStore};
+const StoreContext = createContext<BlockchainStore>(new BlockchainStore());
+
+const StoreProvider: FC<{store: BlockchainStore}> = ({store, children}) => {
+  return (
+    <StoreContext.Provider value={store}>
+      {children}
+    </StoreContext.Provider>
+  )
+}
+
+const useStore = () => {
+  return useContext(StoreContext)
+}
+export {BlockchainStore, StoreProvider, useStore};
