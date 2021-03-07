@@ -1,6 +1,7 @@
 import { useState, FC } from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "src/store";
+import { keys } from "mobx";
 
 const Home: FC = () => {
   return (
@@ -8,6 +9,7 @@ const Home: FC = () => {
       <Title />
       <Form />
       <Transactions />
+      <Blocks />
     </main>
   );
 };
@@ -15,7 +17,7 @@ const Home: FC = () => {
 const Title: FC = observer(() => {
   const store = useStore();
 
-  return <h1>{store.blocks.length} Blocks</h1>;
+  return <h1>{store.numberBlocks} Blocks</h1>;
 });
 
 const Form: FC = () => {
@@ -60,4 +62,21 @@ const Transactions: FC = observer(() => {
   );
 });
 
+const Blocks: FC = observer(() => {
+  const store = useStore();
+
+  return (
+    <div>
+      <h2>Blocks</h2>
+      <ul className="blocks">
+        {[...store.blocks].reverse().map((block) => (
+          <li key={block.hash}>
+            <h3>{block.hash}</h3>
+            <pre>{JSON.stringify(block.transactions, null, 2)}</pre>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+});
 export default Home;
