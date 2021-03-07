@@ -25,9 +25,10 @@ class BlockchainStore {
     }
     // take all transactions from store
     const transactions = [...this.transactions];
-    // zero out our transactions from store
+    // reset our transactions from store
     this.transactions = [];
 
+    // create block and hash
     const prevBlock = this.blocks[this.blocks.length - 1] ?? { hash: "" };
     const hash = sha256(
       `${prevBlock.hash}${JSON.stringify(transactions)}`
@@ -42,6 +43,13 @@ class BlockchainStore {
 const StoreContext = createContext<BlockchainStore>(new BlockchainStore());
 
 const StoreProvider: FC<{ store: BlockchainStore }> = ({ store, children }) => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      store.writeBlock();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [store]);
+
   return (
     <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
   );

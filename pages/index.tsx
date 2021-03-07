@@ -5,11 +5,18 @@ import { useStore } from "src/store";
 const Home: FC = () => {
   return (
     <main>
+      <Title />
       <Form />
       <Transactions />
     </main>
   );
 };
+
+const Title: FC = observer(() => {
+  const store = useStore();
+
+  return <h1>{store.blocks.length} Blocks</h1>;
+});
 
 const Form: FC = () => {
   const store = useStore();
