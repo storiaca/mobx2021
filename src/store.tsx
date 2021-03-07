@@ -18,6 +18,26 @@ class BlockchainStore {
   addTransaction(message: string) {
     this.transactions.push(message);
   }
+
+  writeBlock() {
+    if (this.transactions.length === 0) {
+      return;
+    }
+    // take all transactions from store
+    const transactions = [...this.transactions];
+    // zero out our transactions from store
+    this.transactions = [];
+
+    const prevBlock = this.blocks[this.blocks.length - 1] ?? { hash: "" };
+    const hash = sha256(
+      `${prevBlock.hash}${JSON.stringify(transactions)}`
+    ).toString();
+    // write transaction to block
+    this.blocks.push({
+      hash,
+      transactions,
+    });
+  }
 }
 const StoreContext = createContext<BlockchainStore>(new BlockchainStore());
 
