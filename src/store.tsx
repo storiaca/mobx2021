@@ -19,6 +19,10 @@ class BlockchainStore {
     return this.blocks.length;
   }
 
+  get valid() {
+    return this.blocks.every((block, index) => {});
+  }
+
   addTransaction(message: string) {
     this.transactions.push(message);
   }
