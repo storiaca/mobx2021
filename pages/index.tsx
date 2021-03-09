@@ -17,7 +17,11 @@ const Home: FC = () => {
 const Title: FC = observer(() => {
   const store = useStore();
 
-  return <h1>{store.numberBlocks} Blocks</h1>;
+  return (
+    <h1>
+      {store.numberBlocks} Blocks ({store.valid ? "Valid" : "Invalid"})
+    </h1>
+  );
 });
 
 const Form: FC = () => {

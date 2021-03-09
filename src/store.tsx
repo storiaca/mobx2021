@@ -20,7 +20,13 @@ class BlockchainStore {
   }
 
   get valid() {
-    return this.blocks.every((block, index) => {});
+    return this.blocks.every((block, index) => {
+      const prevBlock = this.blocks[index - 1] ?? { hash: "" };
+      const hash = sha256(
+        `${prevBlock.hash}${JSON.stringify(block.transactions)}`
+      ).toString();
+      return hash === block.hash;
+    });
   }
 
   addTransaction(message: string) {
